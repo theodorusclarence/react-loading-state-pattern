@@ -3,16 +3,16 @@ import * as React from 'react';
 import UnstyledLink from '@/components/links/UnstyledLink';
 
 const links = [
-  { href: '/', label: 'Route 1' },
-  { href: '/', label: 'Route 2' },
+  { href: '/normal', label: 'Normal' },
+  { href: '/swr', label: 'SWR' },
 ];
 
 export default function Header() {
   return (
-    <header className='sticky top-0 z-50 bg-white'>
+    <header className='sticky top-0 z-50 bg-white shadow'>
       <div className='flex items-center justify-between h-14 layout'>
         <UnstyledLink href='/' className='font-bold hover:text-gray-600'>
-          Home
+          Async Pattern
         </UnstyledLink>
         <nav>
           <ul className='flex items-center justify-between space-x-4'>

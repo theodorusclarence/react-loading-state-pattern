@@ -11,8 +11,8 @@ export default function HomePage() {
       <Seo />
 
       <main>
-        <section className='bg-gray-100'>
-          <div className='flex flex-col items-center justify-center min-h-screen text-center layout'>
+        <section className=''>
+          <div className='flex flex-col items-center justify-center text-center min-h-main layout'>
             <h1>Async Pattern</h1>
             <p className='mt-2 text-sm text-gray-700'>
               🔥 Hassle free asynchronous pattern using React Hot Toast and SWR.
@@ -23,11 +23,11 @@ export default function HomePage() {
               </CustomLink>
             </p>
 
-            <ButtonLink className='mt-6' href='/components' variant='light'>
-              Get example
+            <ButtonLink className='mt-6' href='/normal' variant='light'>
+              Normal example
             </ButtonLink>
-            <ButtonLink className='mt-2' href='/components' variant='light'>
-              Post example
+            <ButtonLink className='mt-2' href='/swr' variant='light'>
+              SWR example
             </ButtonLink>
 
             <footer className='absolute text-gray-600 bottom-2'>
