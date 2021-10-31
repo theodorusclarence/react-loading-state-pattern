@@ -15,10 +15,11 @@ type OptionType = {
 
 export default function useWithToast<T, E>(
   swr: SWRResponse<T, E>,
-  { runCondition, ...customMessages }: OptionType = { runCondition: true }
+  { runCondition = true, ...customMessages }: OptionType = {}
 ) {
   const { data, error } = swr;
-  const [toastId, setToastId] = React.useState(data ? 'done' : 'idle');
+
+  const toastStatus = React.useRef<string>(data ? 'done' : 'idle');
 
   const toastMessage = {
     ...defaultToastMessage,
@@ -26,26 +27,33 @@ export default function useWithToast<T, E>(
   };
 
   React.useEffect(() => {
-    // if toastId is done,
-    // then it is not the first render or the data is already cached
     if (!runCondition) return;
-    if (toastId === 'done') return;
+
+    // if toastStatus is done,
+    // then it is not the first render or the data is already cached
+    if (toastStatus.current === 'done') return;
 
     if (error) {
-      toast.error(toastMessage.error, { id: toastId });
-      setToastId('done');
+      toast.error(toastMessage.error, { id: toastStatus.current });
+      toastStatus.current = 'done';
     } else if (data) {
-      toast.success(toastMessage.success, { id: toastId });
-      setToastId('done');
+      toast.success(toastMessage.success, { id: toastStatus.current });
+      toastStatus.current = 'done';
     } else {
-      setToastId(toast.loading(toastMessage.loading));
+      toastStatus.current = toast.loading(toastMessage.loading);
     }
 
     return () => {
-      toast.dismiss();
+      toast.dismiss(toastStatus.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, error, runCondition]);
+  }, [
+    data,
+    error,
+    runCondition,
+    toastMessage.error,
+    toastMessage.loading,
+    toastMessage.success,
+  ]);
 
   return { ...swr, isLoading: useLoadingToast() };
 }
